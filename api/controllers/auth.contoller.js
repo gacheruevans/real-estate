@@ -22,3 +22,19 @@ export const signup = async (req, res, next) => {
         }
     }
 };
+
+export const signin = async (req, res, next) => {
+    const { email, password } = req.body;
+    const hashPassword = bcryptjs.hashSync(password, 10);
+   
+    try {
+        // const findUser = new User({ email, password: hashPassword });
+        // await newUser.save();
+        res.status(201).json({
+            message: 'User Found Successfully',
+        });
+    } catch (error) {
+        next(error);
+    }
+    
+};
