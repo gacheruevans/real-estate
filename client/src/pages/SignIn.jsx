@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -11,6 +14,7 @@ export default function SignIn() {
   };
   const handleSubmit = async(e) => {
     e.preventDefault();
+    setLoading(true);
     const res = await fetch('api/auth/signin', 
       {
         method: 'POST',
@@ -21,7 +25,13 @@ export default function SignIn() {
       }
     );
     const data = await res.json();
-    console.log(data);
+    
+    if(data.success === false) {
+      setError(data.message);
+      setLoading(false);
+      return;
+    }
+    setLoading(false);
   };
   return (
     <div className="relative flex flex-1 flex-col items-center justify-center pb-16 pt-12">
@@ -32,8 +42,8 @@ export default function SignIn() {
         <div className="mb-6">
           <input type="password" id="password" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="password" onChange={handleChange} />
         </div>
-        <button type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
-          <span>Sign in to account</span>
+        <button disabled={loading} type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
+          <span>{loading ? 'Loading...':'Sign in to account'}</span>
         </button>
         <p className="mt-8 text-center"> <a href="/reset" className="text-sm hover:underline">Forgot Password? </a></p>
       </form>
