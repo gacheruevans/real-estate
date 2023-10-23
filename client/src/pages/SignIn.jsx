@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,24 +15,33 @@ export default function SignIn() {
   };
   const handleSubmit = async(e) => {
     e.preventDefault();
-    setLoading(true);
-    const res = await fetch('api/auth/signin', 
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify(formData),
+    try {
+      setLoading(true);
+      const res = await fetch('api/auth/signin', 
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await res.json();
+      
+      if(data.success === false) {
+        setError(data.message);
+        setLoading(false);
+        return;
       }
-    );
-    const data = await res.json();
-    
-    if(data.success === false) {
-      setError(data.message);
+      
       setLoading(false);
-      return;
+      setError(null);
+      navigate('/home');
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
     }
-    setLoading(false);
+    
   };
   return (
     <div className="relative flex flex-1 flex-col items-center justify-center pb-16 pt-12">
@@ -49,10 +59,10 @@ export default function SignIn() {
       </form>
       <div className="space-y-4 text-sm text-gray-900 sm:flex sm:items-center sm:justify-center sm:space-x-4 sm:space-y-0">
         <p className="text-center sm:text-left">Don&apos;t have an account?
-         <Link to={'/signup'} className="text-sm hover:underline">Sign Up
-          </Link>
+         <Link to={'/signup'} className="text-sm hover:underline">Sign Up</Link>
         </p>
       </div>
+      { error && <p className="text-red-500">{error}</p>}
     </div>
   )
 }
