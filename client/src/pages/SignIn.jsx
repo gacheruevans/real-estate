@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
@@ -36,7 +36,7 @@ export default function SignIn() {
       
       setLoading(false);
       setError(null);
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       setLoading(false);
       setError(error.message);
