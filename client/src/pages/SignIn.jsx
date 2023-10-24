@@ -58,8 +58,8 @@ export default function SignIn() {
         <p className="mt-8 text-center"> <a href="/reset" className="text-sm hover:underline">Forgot Password? </a></p>
       </form>
       <div className="space-y-4 text-sm text-gray-900 sm:flex sm:items-center sm:justify-center sm:space-x-4 sm:space-y-0">
-        <p className="text-center sm:text-left">Don&apos;t have an account?
-         <Link to={'/signup'} className="text-sm hover:underline">Sign Up</Link>
+        <p className="text-center sm:text-left">Don&apos;t have an account? 
+         <a href='/sign-up' className="text-sm hover:underline"> Sign Up</a>
         </p>
       </div>
       { error && <p className="text-red-500">{error}</p>}

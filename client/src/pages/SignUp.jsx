@@ -71,9 +71,9 @@ export default function SignUp() {
       </form>
       <div className="mb-6">
         <p className="mt-8 text-center"> Already have an account? 
-          <Link to={"sign-in"}>
+          <a href="sign-in">
             <span className="text-sm hover:underline"> Sign In</span>
-          </Link>
+          </a>
         </p>
       </div>
       { error && <p className="text-red-500">{error}</p>}
