@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -65,9 +66,14 @@ export default function SignUp() {
         <div className="mb-6">
           <input type="password" id="confirm_password" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="confirm password" />
         </div>
-        <button disabled={loading} className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
-          <span>{loading ? 'Loading...' : 'Create accouont'}</span>
-        </button>
+        <div className="mb-6">
+          <button disabled={loading} className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
+            <span>{loading ? 'Loading...' : 'Create accouont'}</span>
+          </button>
+        </div>
+        <div className="mb-6">
+          <OAuth />
+        </div>
       </form>
       <div className="mb-6">
         <p className="mt-8 text-center"> Already have an account? 
