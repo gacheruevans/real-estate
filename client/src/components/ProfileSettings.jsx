@@ -1,16 +1,70 @@
-import { useSelector} from 'react-redux';
+import { useSelector} from "react-redux";
+import { useRef, useState, useEffect } from "react";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { app } from "../firebase.js";
 
 export default function ProfileSettings() {
+    const fileRef = useRef(null);
     const { currentUser } = useSelector(state => state.user);
+    const [ file, setFile ] = useState(undefined);
+    const [filePercentage, setFilePercentage] = useState(0);
+    const [fileUploadError, setFileUploadError] = useState(false);
+    const [formData, setFormData] = useState({});
+    
+    useEffect(() => {
+        if(file){
+            handleFileUpload(file);
+        }
+    }, [file]);
+
+    const handleFileUpload = (file) => {
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, fileName );
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setFilePercentage(Math.round(progress));
+        },
+        (error) => {
+            setFileUploadError(true);
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                setFormData({ ...formData, avatar: downloadURL });
+            });
+        });
+    };
+
   return (
     <div className="w-full flex gap-4 columns-2 py-4 "> 
         <div className="w-1/2 items-center p-4">
             <div className="mb-6 flex items-center justify-center">
+                <input 
+                    type="file" 
+                    onChange={(e)=>setFile(e.target.files[0])} 
+                    ref={fileRef} 
+                    hidden 
+                    accept="image/.*" />
                 <img 
-                    className="rounded-full h-32 w-32 object-cover self-center my-7"
-                    src={currentUser.avatar} 
+                    className="rounded-full h-32 w-32 object-cover self-center my-7 cursor-pointer"
+                    src={formData.avatar || currentUser.avatar} 
+                    onClick={()=> fileRef.current.click()}
                     alt="profile-pic" 
                 />
+            </div>
+            <div className="mb-6 flex items-center justify-center">
+                <p className="flex text-sm text-align-center">
+                    {
+                        fileUploadError ? 
+                        (<span className="text-red-700">Error Image Upload( Image must be less than 2MB )</span>) : 
+                        filePercentage > 0 && filePercentage < 100 ? 
+                        (<span className="text-slate-700">{`Uploading ${filePercentage}%`}</span>) :
+                        filePercentage === 100 ? (<span className="text-green-700">Successfully uploaded!</span>) : " "
+                    }
+                </p>
             </div>
             <div className="grid justify-center">
                 <div className="mb-6">
@@ -50,8 +104,8 @@ export default function ProfileSettings() {
                         </button>
                     </div>
                 </form>
-                <div className="">
-                    <span className="text-red-700 cursor-pointer">Delete Account</span>
+                <div className="flex mt-5">
+                    <span className="text-red-700 cursor-pointer">Deactivate Account</span>
                 </div>
             </div>
         </div>
