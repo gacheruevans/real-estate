@@ -9,8 +9,8 @@ export default function Header() {
         <div className="flex items-center justify-between max-w-6xl p-3 mx-auto">
             <Link to="/">
                 <h1 className="flex flex-wrap text-sm font-bold sm:text-xl ">
-                    <span className="text-slate-500">Ke</span>
-                    <span className="text-slate-700">Estate</span>
+                    <span className="text-slate-500">Real</span>
+                    <span className="text-slate-700">Estates</span>
                 </h1>
             </Link>
             <form className="flex items-center p-3 rounded-lg bg-slate-100">
