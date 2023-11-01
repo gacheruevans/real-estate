@@ -1,10 +1,12 @@
-import { useSelector} from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase.js";
+import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice.js";
 
 export default function ProfileSettings() {
     const fileRef = useRef(null);
+    const dispatch = useDispatch();
     const { currentUser } = useSelector(state => state.user);
     const [ file, setFile ] = useState(undefined);
     const [filePercentage, setFilePercentage] = useState(0);
@@ -36,6 +38,31 @@ export default function ProfileSettings() {
                 setFormData({ ...formData, avatar: downloadURL });
             });
         });
+    };
+
+    const handleChange = async (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch(`api/user/update/${currentUser._id}`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(updateUserFailure(data));
+                return;
+            }
+            dispatch(updateUserSuccess(data));
+        } catch (error) {
+            dispatch(updateUserFailure(error.message));
+        }
     };
 
   return (
@@ -85,18 +112,50 @@ export default function ProfileSettings() {
         <div className="w-1/2">
             <h1 className="text-3xl font-semibold my-7">Edit Information</h1>
             <div className="mb-6">
-                <form className="max-w-sm justify-center">
+                <form onSubmit={handleSubmit} className="max-w-sm justify-center">
                     <div className="mb-6">
-                        <input type="text" id="username" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="username"  />
+                        <input 
+                            type="text" 
+                            id="username" 
+                            className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.username}
+                            onChange={handleChange}
+                            placeholder="username"  />
                     </div>
                     <div className="mb-6">
-                        <input type="text" id="firstname" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="first name" />
+                        <input 
+                            type="text" 
+                            id="firstname" 
+                            className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200"  
+                            defaultValue={currentUser.firstname}
+                            onChange={handleChange}
+                            placeholder="first name" />
                     </div>
                     <div className="mb-6">
-                        <input type="text" id="lastname" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="last name" />
+                        <input 
+                            type="text" 
+                            id="lastname" 
+                            className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.lastname}
+                            onChange={handleChange}
+                            placeholder="last name" />
                     </div>
                     <div className="mb-6">
-                        <input type="email" id="email" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="email" />
+                        <input 
+                            type="email"
+                            id="email" 
+                            className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.email}
+                            onChange={handleChange}
+                            placeholder="email" />
+                    </div>
+                    <div className="mb-6">
+                        <input 
+                            type="text"
+                            id="password" 
+                            className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            onChange={handleChange}
+                            placeholder="password" />
                     </div>
                     <div className="mb-6">
                         <button className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
