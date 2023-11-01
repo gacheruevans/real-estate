@@ -1,15 +1,18 @@
-import { useSelector} from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase.js";
+import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice.js";
 
 export default function ProfileSettings() {
     const fileRef = useRef(null);
-    const { currentUser } = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const { currentUser, loading, error } = useSelector((state) => state.user);
     const [ file, setFile ] = useState(undefined);
     const [filePercentage, setFilePercentage] = useState(0);
     const [fileUploadError, setFileUploadError] = useState(false);
     const [formData, setFormData] = useState({});
+    const [updateSuccess, setUpdateSuccess] = useState(false);
     
     useEffect(() => {
         if(file){
@@ -38,10 +41,38 @@ export default function ProfileSettings() {
         });
     };
 
+    const handleChange = async (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            dispatch(updateUserStart());
+            const res = await fetch(`api/user/update/${currentUser._id}`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(updateUserFailure(data.message));
+                return;
+            }
+
+            dispatch(updateUserSuccess(data));
+            setUpdateSuccess(true);
+        } catch (error) {
+            dispatch(updateUserFailure(error.message));
+        }
+    };
+
   return (
-    <div className="w-full flex gap-4 columns-2 py-4 "> 
-        <div className="w-1/2 items-center p-4">
-            <div className="mb-6 flex items-center justify-center">
+    <div className="flex w-full gap-4 py-4 columns-2 "> 
+        <div className="items-center w-1/2 p-4">
+            <div className="flex items-center justify-center mb-6">
                 <input 
                     type="file" 
                     onChange={(e)=>setFile(e.target.files[0])} 
@@ -49,13 +80,13 @@ export default function ProfileSettings() {
                     hidden 
                     accept="image/.*" />
                 <img 
-                    className="rounded-full h-32 w-32 object-cover self-center my-7 cursor-pointer"
+                    className="self-center object-cover w-32 h-32 rounded-full cursor-pointer my-7"
                     src={formData.avatar || currentUser.avatar} 
                     onClick={()=> fileRef.current.click()}
                     alt="profile-pic" 
                 />
             </div>
-            <div className="mb-6 flex items-center justify-center">
+            <div className="flex items-center justify-center mb-6">
                 <p className="flex text-sm text-align-center">
                     {
                         fileUploadError ? 
@@ -68,16 +99,16 @@ export default function ProfileSettings() {
             </div>
             <div className="grid justify-center">
                 <div className="mb-6">
-                    <label className="text-slate-900 sm:text-sm px-3">Username: </label>
-                    <span className="text-slate-400 sm:text-sm px-3">{currentUser.username}</span>
+                    <label className="px-3 text-slate-900 sm:text-sm">Name: </label>
+                    <span className="px-3 text-slate-400 sm:text-sm">{currentUser.firstname +" "+ currentUser.lastname}</span>
                 </div>
                 <div className="mb-6">
-                    <label className="text-slate-900 sm:text-sm px-3">Name: </label>
-                    <span className="text-slate-400 sm:text-sm px-3">{currentUser.firstname +" "+ currentUser.lastname}</span>
+                    <label className="px-3 text-slate-900 sm:text-sm">Username: </label>
+                    <span className="px-3 text-slate-400 sm:text-sm">{currentUser.username}</span>
                 </div>
                 <div className="mb-6">
-                    <label className="text-slate-900 sm:text-sm px-3">Email: </label>
-                    <span className="text-slate-400 sm:text-sm px-3"> {currentUser.email}</span>
+                    <label className="px-3 text-slate-900 sm:text-sm">Email: </label>
+                    <span className="px-3 text-slate-400 sm:text-sm"> {currentUser.email}</span>
                 </div>
             </div>
             
@@ -85,27 +116,65 @@ export default function ProfileSettings() {
         <div className="w-1/2">
             <h1 className="text-3xl font-semibold my-7">Edit Information</h1>
             <div className="mb-6">
-                <form className="max-w-sm justify-center">
+                <form onSubmit={handleSubmit} className="justify-center max-w-sm">
                     <div className="mb-6">
-                        <input type="text" id="username" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="username"  />
+                        <input 
+                            type="text" 
+                            id="firstname" 
+                            className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200"  
+                            defaultValue={currentUser.firstname}
+                            onChange={handleChange}
+                            placeholder="first name" />
                     </div>
                     <div className="mb-6">
-                        <input type="text" id="firstname" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="first name" />
+                        <input 
+                            type="text" 
+                            id="lastname" 
+                            className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.lastname}
+                            onChange={handleChange}
+                            placeholder="last name" />
                     </div>
                     <div className="mb-6">
-                        <input type="text" id="lastname" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="last name" />
+                        <input 
+                            type="text" 
+                            id="username" 
+                            className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.username}
+                            onChange={handleChange}
+                            placeholder="username"  />
                     </div>
                     <div className="mb-6">
-                        <input type="email" id="email" className="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" required placeholder="email" />
+                        <input 
+                            type="email"
+                            id="email" 
+                            className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            defaultValue={currentUser.email}
+                            onChange={handleChange}
+                            placeholder="email" />
                     </div>
                     <div className="mb-6">
-                        <button className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
-                            <span>Update account</span>
+                        <input 
+                            type="text"
+                            id="password" 
+                            className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" 
+                            onChange={handleChange}
+                            placeholder="password" />
+                    </div>
+                    <div className="mb-6">
+                        <button disabled={loading} type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
+                           <span>{loading ? 'Loading...' : 'Update account'}</span>
                         </button>
                     </div>
                 </form>
-                <div className="flex mt-5">
-                    <span className="text-red-700 cursor-pointer">Deactivate Account</span>
+                <div className="max-w-sm mb-6">
+                    <button disabled={loading} type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-red-700 text-white hover:bg-red-600 w-full">
+                        <span className="cursor-pointer">{loading ? 'Loading...' : 'Deactivate Account'}</span>
+                    </button>
+                </div>
+                <div className="mb-6">
+                    <p className="mt-5 text-red-700">{ error ? error : '' }</p>
+                    <p className="mt-5 text-green-700">{ updateSuccess ? 'User Updated Successfully' : '' }</p>
                 </div>
             </div>
         </div>
