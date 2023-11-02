@@ -27,7 +27,7 @@ export const updateUser = async (req, res, next) => {
         const {password, ...updatedInfo} = updateUser._doc;
         res.status(200).json(updatedInfo);
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
 
@@ -39,6 +39,6 @@ export const deleteUser = async (req, res, next) => {
         res.clearCookie('access_token');
         res.status(200).json({message: `Deleted user with id ${deleteUser}`});
     } catch (error) {
-        next(error)
+        next(error);
     }
 };

@@ -10,12 +10,10 @@ import {
     deleteUserSuccess,
     deleteUserFailure,
  } from "../redux/user/userSlice.js";
- import { useNavigate } from "react-router-dom";
 
 export default function ProfileSettings() {
     const fileRef = useRef(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { currentUser, loading, error } = useSelector((state) => state.user);
     const [ file, setFile ] = useState(undefined);
     const [filePercentage, setFilePercentage] = useState(0);
@@ -40,6 +38,7 @@ export default function ProfileSettings() {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setFilePercentage(Math.round(progress));
         },
+        // eslint-disable-next-line no-unused-vars
         (error) => {
             setFileUploadError(true);
         },
