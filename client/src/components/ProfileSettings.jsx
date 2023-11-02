@@ -2,11 +2,20 @@ import { useSelector, useDispatch} from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase.js";
-import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice.js";
+import { 
+    updateUserStart, 
+    updateUserSuccess, 
+    updateUserFailure,
+    deleteUserStart,
+    deleteUserSuccess,
+    deleteUserFailure,
+ } from "../redux/user/userSlice.js";
+ import { useNavigate } from "react-router-dom";
 
 export default function ProfileSettings() {
     const fileRef = useRef(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { currentUser, loading, error } = useSelector((state) => state.user);
     const [ file, setFile ] = useState(undefined);
     const [filePercentage, setFilePercentage] = useState(0);
@@ -66,6 +75,23 @@ export default function ProfileSettings() {
             setUpdateSuccess(true);
         } catch (error) {
             dispatch(updateUserFailure(error.message));
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        try {
+            dispatch(deleteUserStart());
+            const res = await fetch(`api/user/delete/${currentUser._id}`, {
+                method: 'DELETE',
+            });
+            const data = await res.json();
+            if (data.success === false) {
+                dispatch(deleteUserFailure(data.message));
+                return;
+            }
+            dispatch(deleteUserSuccess(data));
+        } catch (error) {
+            dispatch(deleteUserFailure(error.message));
         }
     };
 
@@ -162,13 +188,19 @@ export default function ProfileSettings() {
                             placeholder="password" />
                     </div>
                     <div className="mb-6">
-                        <button disabled={loading} type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
+                        <button 
+                            disabled={loading} 
+                            type="submit" 
+                            className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full">
                            <span>{loading ? 'Loading...' : 'Update account'}</span>
                         </button>
                     </div>
                 </form>
                 <div className="max-w-sm mb-6">
-                    <button disabled={loading} type="submit" className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-red-700 text-white hover:bg-red-600 w-full">
+                    <button 
+                        disabled={loading} 
+                        onClick={handleDeleteUser}
+                        className="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-red-700 text-white hover:bg-red-600 w-full">
                         <span className="cursor-pointer">{loading ? 'Loading...' : 'Deactivate Account'}</span>
                     </button>
                 </div>
