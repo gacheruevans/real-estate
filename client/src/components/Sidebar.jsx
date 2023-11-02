@@ -26,7 +26,7 @@ export default function Sidebar() {
         <h1 className="p-4 text-center text-white">Dashboard</h1>
         <div className="p-6 list-outside">
             <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Profile</span></div>
-            <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Properties</span></div>
+            <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Listings</span></div>
             <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Projects</span></div>
             <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Inbox</span> </div>
             <div className="flex p-4 mb-6 rounded-md hover:border hover:text-white text-slate-500 "><span>Settings</span> </div>
