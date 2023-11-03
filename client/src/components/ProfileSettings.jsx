@@ -95,7 +95,7 @@ export default function ProfileSettings() {
     };
 
   return (
-    <div className="flex w-full gap-4 py-4 columns-2 "> 
+    <div className="flex w-full gap-4 py-4 columns-2 ">
         <div className="items-center w-1/2 p-4">
             <div className="flex items-center justify-center mb-6">
                 <input 
