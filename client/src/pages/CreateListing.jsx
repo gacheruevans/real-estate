@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase.js";
-
+import { useNavigate } from "react-router-dom";
 export default function CreateListing() {
     const { currentUser } = useSelector(state => state.user);
     const [files, setFiles] = useState([]);
@@ -27,6 +27,7 @@ export default function CreateListing() {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         if(e.target.id === "sale" || e.target.id === "rent"){
@@ -73,6 +74,7 @@ export default function CreateListing() {
                 setError(error.message);
                 return;
             }
+            navigate(`/listing/${data._id}`);
         } catch (error) {
             setError(error.message);
             setLoading(false);
@@ -261,7 +263,7 @@ export default function CreateListing() {
                             <input 
                                 className="p-3 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none" 
                                 type="number" 
-                                id="regular_price" 
+                                id="regularPrice" 
                                 min="50" 
                                 max="1000000" 
                                 required
@@ -276,7 +278,7 @@ export default function CreateListing() {
                             <input 
                                 className="p-3 bg-white border border-gray-300 rounded-lg shadow-sm appearance-none" 
                                 type="number" 
-                                id="discount_price" 
+                                id="discountPrice" 
                                 min="50" 
                                 max="10000000" 
                                 onChange={handleChange}
