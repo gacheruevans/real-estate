@@ -114,7 +114,8 @@ export default function CreateListing() {
         });
     };
 
-    const handleRemoveImage = (index) => {
+    const handleRemoveImage = (e, index) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             imageUrls: formData.imageUrls.filter((_, i) => i !== index),
