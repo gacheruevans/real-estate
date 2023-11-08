@@ -285,8 +285,7 @@ export default function CreateListing() {
                     <p className="text-sm text-red-700">{imageUploadError && imageUploadError}</p>
                     {
                         // eslint-disable-next-line no-unused-vars
-                        
-                        formData.imageUrls.length > 0 && formData.imageUrls.map((url) => (
+                        formData.imageUrls.length > 0 && formData.imageUrls.map((url, index) => (
                             <div key={url} className="flex items-center justify-between p-3 border">
                                 <img src={url} alt="listing image" className="object-contain w-20 h-20 rounded-lg" />
                                 <button className="p-3 text-red-700 uppercase rounded-lg hover:opacity-75">Delete</button>
