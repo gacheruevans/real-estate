@@ -1,15 +1,12 @@
 import { FaSearch } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useSelector} from 'react-redux';
 import { useState } from 'react';
-// import { signOutUserStart, signOutUserSuccess, signOutUserFailure } from '../redux/user/userSlice';
 
 export default function Header() {
-    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const { currentUser } = useSelector(state => state.user);
     const [displayMenu, setDisplayMenu] = useState(false);
-    // const dispatch = useDispatch();
 
     const profileMenu = () => {
         if(displayMenu === true) {
@@ -84,27 +81,27 @@ export default function Header() {
                                         aria-orientation="vertical" 
                                         aria-labelledby="menu-button" 
                                         tabIndex="-1" >
-                                        <div className="py-1" role="none">
+                                        <div className="py-1 hover:bg-violet-600 active:bg-violet-700 focus:outline-none " role="none">
                                             <Link 
                                                 to="/dashboard" 
-                                                className="text-gray-700 block px-4 py-2 text-sm" 
+                                                className="text-gray-700 hover:text-white block px-4 py-2 text-sm" 
                                                 role="menuitem" 
                                                 tabIndex="-1" 
                                                 id="menu-item-0" >Realtor Dashboard</Link>
                                         </div>
-                                        <div className="py-1" role="none">
+                                        <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
                                             <Link 
                                                 to="/profile" 
-                                                className="text-gray-700 block w-full px-4 py-2 text-left text-sm" 
+                                                className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
                                                 role="menuitem" 
                                                 tabIndex="-1" 
                                                 id="menu-item-3" >Account Settings</Link>
                                         </div>
-                                        <div className="py-1" role="none">
+                                        <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
                                             <button 
                                                 type="submit" 
                                                 onClick={handleSignOut}
-                                                className="text-gray-700 block w-full px-4 py-2 text-left text-sm" 
+                                                className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
                                                 role="menuitem" 
                                                 tabIndex="-1" 
                                                 id="menu-item-3" >Sign Out</button>

@@ -9,9 +9,9 @@ export default function Sidebar() {
         <h1 className="p-4 text-center bg-slate-600 text-white">Realtor Dashboard</h1>
         <div className="mt-12 list-outside">
           <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><Link to="/listings"><span>Listings</span></Link></div>
-          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><span>Analytics</span></div>
-          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><span>Projects</span></div>
-          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><span>Inbox</span> </div>
+          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><Link to="/anaytics"><span>Analytics</span></Link></div>
+          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><Link to="/projects"><span>Projects</span></Link></div>
+          <div className="flex p-4 mb-6 hover:bg-violet-600 active:bg-violet-700 focus:outline-none hover:text-white text-slate-500 "><Link to="/inbox"><span>Inbox</span></Link></div>
         </div>
     </div>
     </aside>
