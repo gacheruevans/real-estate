@@ -22,7 +22,6 @@ export default function CreateListing() {
         furnished: false,
         pets: false,
     });
-    console.log(formData);
     const [imageUploadError, setImageUploadError] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
