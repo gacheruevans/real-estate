@@ -1,9 +1,40 @@
 import { FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useSelector} from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch} from 'react-redux';
+import { useState } from 'react';
+// import { signOutUserStart, signOutUserSuccess, signOutUserFailure } from '../redux/user/userSlice';
 
 export default function Header() {
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
     const { currentUser } = useSelector(state => state.user);
+    const [displayMenu, setDisplayMenu] = useState(false);
+    // const dispatch = useDispatch();
+
+    const profileMenu = () => {
+        if(displayMenu === true) {
+            setDisplayMenu(false);
+        } else {
+            setDisplayMenu(true);
+        } 
+    };
+  
+    const handleSignOut = async () => {
+
+        try {
+            const res = await fetch('/api/auth/signout/');
+            const data = await res.json();
+            if (data.success === false) {
+                setError(data.message);
+                return;
+            }
+            setError(null);
+            localStorage.clear();
+            window.location.reload(true);
+        } catch (error) {
+            setError(error.message);
+        }
+    };
   return (
     <header className="shadow-md bg-slate-200">
         <div className="flex items-center justify-between max-w-6xl p-3 mx-auto">
@@ -21,7 +52,7 @@ export default function Header() {
                 />
                 <FaSearch className='text-slate-600'/>
             </form>
-            <ul className="flex gap-4">
+            <ul className="flex gap-6">
                 <Link to="/">
                     <li className="hidden sm:inline text-slate-700 hover:underline">Home</li>
                 </Link>
@@ -30,14 +61,60 @@ export default function Header() {
                     <li className="hidden sm:inline text-slate-700 hover:underline">About</li>
                 </Link>
                 {currentUser ? (
-                    <Link to="/profile">
-                        <img 
-                            className="rounded-full h-7 w-7 object-cover"
-                            src={currentUser.avatar} 
-                            alt="profile" 
-                        />
-                    </Link>
                     
+                    <div className="relative inline-block text-left">
+                    
+                        <button 
+                            type="button" 
+                            onClick={profileMenu} 
+                            aria-expanded={displayMenu} 
+                            aria-haspopup="false">
+                            <img 
+                                className="rounded-full h-10 w-10 object-cover"
+                                src={currentUser.avatar} 
+                                alt="profile" 
+                            />
+                        </button>
+                        
+                        {
+                                displayMenu ? (
+                                    <div 
+                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+                                        role="menu" 
+                                        aria-orientation="vertical" 
+                                        aria-labelledby="menu-button" 
+                                        tabIndex="-1" >
+                                        <div className="py-1" role="none">
+                                            <Link 
+                                                to="/dashboard" 
+                                                className="text-gray-700 block px-4 py-2 text-sm" 
+                                                role="menuitem" 
+                                                tabIndex="-1" 
+                                                id="menu-item-0" >Realtor Dashboard</Link>
+                                        </div>
+                                        <div className="py-1" role="none">
+                                            <Link 
+                                                to="/profile" 
+                                                className="text-gray-700 block w-full px-4 py-2 text-left text-sm" 
+                                                role="menuitem" 
+                                                tabIndex="-1" 
+                                                id="menu-item-3" >Account Settings</Link>
+                                        </div>
+                                        <div className="py-1" role="none">
+                                            <button 
+                                                type="submit" 
+                                                onClick={handleSignOut}
+                                                className="text-gray-700 block w-full px-4 py-2 text-left text-sm" 
+                                                role="menuitem" 
+                                                tabIndex="-1" 
+                                                id="menu-item-3" >Sign Out</button>
+                                        </div>
+                                    </div>
+                                ) :''
+                        }
+
+                        
+                    </div>
                 ) :
                     (
                         <Link to="/sign-in">
