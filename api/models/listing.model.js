@@ -49,6 +49,14 @@ const listingSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    logitude: {
+        type: Number,
+        required: true,
+    },
+    latitude: {
+        type: Number,
+        required: true,
+    },
     imageUrls: {
         type: Array,
         default: "../../public/images/home.png",
