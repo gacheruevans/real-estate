@@ -50,67 +50,62 @@ export default function Header() {
                 <FaSearch className='text-slate-600'/>
             </form>
             <ul className="flex gap-6">
-                <Link to="/">
-                    <li className="hidden sm:inline text-slate-700 hover:underline">Home</li>
+                <Link to="/rent">
+                    <li className="hidden sm:inline text-slate-700 hover:underline">Rent</li>
                 </Link>
                 
-                <Link to="/about">
-                    <li className="hidden sm:inline text-slate-700 hover:underline">About</li>
+                <Link to="/sale">
+                    <li className="hidden sm:inline text-slate-700 hover:underline">Sale</li>
                 </Link>
                 {currentUser ? (
-                    
                     <div className="relative inline-block text-left">
-                    
                         <button 
                             type="button" 
                             onClick={profileMenu} 
                             aria-expanded={displayMenu} 
                             aria-haspopup="false">
                             <img 
-                                className="rounded-full h-10 w-10 object-cover"
+                                className="rounded-full h-7 w-7 object-cover"
                                 src={currentUser.avatar} 
                                 alt="profile" 
                             />
                         </button>
-                        
                         {
-                                displayMenu ? (
-                                    <div 
-                                        className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
-                                        role="menu" 
-                                        aria-orientation="vertical" 
-                                        aria-labelledby="menu-button" 
-                                        tabIndex="-1" >
-                                        <div className="py-1 hover:bg-violet-600 active:bg-violet-700 focus:outline-none " role="none">
-                                            <Link 
-                                                to="/dashboard" 
-                                                className="text-gray-700 hover:text-white block px-4 py-2 text-sm" 
-                                                role="menuitem" 
-                                                tabIndex="-1" 
-                                                id="menu-item-0" >Realtor Dashboard</Link>
-                                        </div>
-                                        <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
-                                            <Link 
-                                                to="/profile" 
-                                                className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
-                                                role="menuitem" 
-                                                tabIndex="-1" 
-                                                id="menu-item-3" >Account Settings</Link>
-                                        </div>
-                                        <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
-                                            <button 
-                                                type="submit" 
-                                                onClick={handleSignOut}
-                                                className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
-                                                role="menuitem" 
-                                                tabIndex="-1" 
-                                                id="menu-item-3" >Sign Out</button>
-                                        </div>
+                            displayMenu ? (
+                                <div 
+                                    className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
+                                    role="menu" 
+                                    aria-orientation="vertical" 
+                                    aria-labelledby="menu-button" 
+                                    tabIndex="-1" >
+                                    <div className="py-1 hover:bg-violet-600 active:bg-violet-700 focus:outline-none " role="none">
+                                        <Link 
+                                            to="/dashboard" 
+                                            className="text-gray-700 hover:text-white block px-4 py-2 text-sm" 
+                                            role="menuitem" 
+                                            tabIndex="-1" 
+                                            id="menu-item-0" >Realtor Dashboard</Link>
                                     </div>
-                                ) :''
+                                    <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
+                                        <Link 
+                                            to="/profile" 
+                                            className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
+                                            role="menuitem" 
+                                            tabIndex="-1" 
+                                            id="menu-item-3" >Account Settings</Link>
+                                    </div>
+                                    <div className="py-1  hover:bg-violet-600 active:bg-violet-700 focus:outline-none" role="none">
+                                        <button 
+                                            type="submit" 
+                                            onClick={handleSignOut}
+                                            className="text-gray-700 hover:text-white block w-full px-4 py-2 text-left text-sm" 
+                                            role="menuitem" 
+                                            tabIndex="-1" 
+                                            id="menu-item-3" >Sign Out</button>
+                                    </div>
+                                </div>
+                            ) :''
                         }
-
-                        
                     </div>
                 ) :
                     (

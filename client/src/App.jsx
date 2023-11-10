@@ -7,7 +7,7 @@ import About from "./pages/About";
 import CreateListing from "./pages/CreateListing";
 import Listings from "./pages/Listings";
 import Header from "./components/Header";
-import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
 import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
@@ -19,10 +19,10 @@ export default function App() {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route element={<PrivateRoute />} >
-          <Route path='/dashboard' element={<Sidebar />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/create-listing' element={<CreateListing />} />
-          <Route path='/listings' element={<Listings />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard/profile' element={<Profile />} />
+          <Route path='/dashboard/create-listing' element={<CreateListing />} />
+          <Route path='/dashboard/listings' element={<Listings />} />
         </Route>
         <Route path='/about' element={<About />} />
       </Routes>
