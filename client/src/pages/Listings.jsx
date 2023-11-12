@@ -27,7 +27,7 @@ export default function Listings() {
     const {currentUser} = useSelector((state) => state.user);
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
-    console.log(currentUser);
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
             map.current = new mapboxgl.Map({
