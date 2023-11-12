@@ -35,7 +35,6 @@ export default function Dashboard() {
         <Link to="/dashboard/settings"><SidebarItem icon={<Settings size={20} />} text="Settings"  /></Link>
         <Link to="/dashboard/help"><SidebarItem icon={<LifeBuoy size={20} />} text="Help"  /></Link>
       </Sidebar>
-
     </div>
   );
 }

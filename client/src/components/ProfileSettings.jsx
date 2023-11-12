@@ -71,7 +71,7 @@ export default function ProfileSettings() {
         e.preventDefault();
         try {
             dispatch(updateUserStart());
-            const res = await fetch(`api/user/update/${currentUser._id}`, {
+            const res = await fetch(`/api/user/update/${currentUser._id}`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json', 
@@ -120,13 +120,13 @@ export default function ProfileSettings() {
             </Link>
             <Link to="/dashboard/analytics"><SidebarItem icon={<BarChart3 size={20} />} text="Analytics" /></Link>
             <Link to="/dashboard/realtors"><SidebarItem icon={<UserCircle size={20} />} text="Realtors" /></Link>
-            <Link to="/dashboard/listings"><SidebarItem icon={<Home size={20} />} text="listings" active/></Link>
+            <Link to="/dashboard/listings"><SidebarItem icon={<Home size={20} />} text="listings" /></Link>
             <Link to="/dashboard/plots"><SidebarItem icon={<LandPlot size={20} />} text="Plots" /></Link>
             <Link to="/dashboard/requests"><SidebarItem icon={<Inbox size={20} />} text="Requests" /></Link>
             <Link to="/dashboard/billings"><SidebarItem icon={<Receipt size={20} />} text="Billings" /></Link>
             <Link to="/dashboard/archieve"><SidebarItem icon={<Archive size={20} />} text="Archieve" /></Link>
             <hr className="my-3" />
-            <Link to="/dashboard/settings"><SidebarItem icon={<Settings size={20} />} text="Settings"  /></Link>
+            <Link to="/dashboard/settings"><SidebarItem icon={<Settings size={20} />} text="Settings" active /></Link>
             <Link to="/dashboard/help"><SidebarItem icon={<LifeBuoy size={20} />} text="Help"  /></Link>
         </Sidebar>
         <div className="items-center w-1/2 p-4">

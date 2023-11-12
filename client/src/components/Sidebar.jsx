@@ -7,7 +7,7 @@ export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
   return (
     <aside className="h-screen duration-300 ease-linear -translate-x-full lg:static lg:translate-x-0">
-      <nav className="h-full flex flex-col border-r shadow-sm">
+      <nav className={`h-full flex flex-col border-r shadow-sm ${!expanded && "bg-slate-800"}`}>
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src="../../public/images/logoipsum-297.svg"
@@ -65,6 +65,9 @@ export function SidebarItem({ icon, text, active, alert }) {
           active 
           ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
           : "hover:bg-indigo-500 hover:text-white text-gray-600"
+        }
+        ${
+          !expanded && "text-white"
         }
       `}
     >
