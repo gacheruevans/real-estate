@@ -49,7 +49,7 @@ const listingSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    logitude: {
+    longitude: {
         type: Number,
         required: true,
     },
