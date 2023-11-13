@@ -25,6 +25,7 @@ export default function Listings() {
     const [zoom, setZoom] = useState(11);
 
     const {currentUser} = useSelector((state) => state.user);
+    console.log(currentUser);
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
 
@@ -49,7 +50,7 @@ export default function Listings() {
 
             try {
                 setShowListingsError(false);
-                const res = await fetch(`/api/user/listings/${currentUser._id}`);
+                const res = await fetch(`/api/user/listing/${currentUser._id}`);
                 const data = await res.json();
                 if(data.success === false) {
                     setShowListingsError(true);
@@ -75,12 +76,12 @@ export default function Listings() {
                     <SidebarItem 
                         icon={<LayoutDashboard size={20}/>}
                         text="Dashboard"
-                        alert
+                        
                     />
                 </Link>
                 <Link to="/dashboard/analytics"><SidebarItem icon={<BarChart3 size={20} />} text="Analytics" /></Link>
                 <Link to="/dashboard/realtors"><SidebarItem icon={<UserCircle size={20} />} text="Realtors" /></Link>
-                <Link to="/dashboard/listings"><SidebarItem icon={<Home size={20} />} text="listings" active/></Link>
+                <Link to="/dashboard/listings"><SidebarItem icon={<Home size={20} />} text="listings" alert active/></Link>
                 <Link to="/dashboard/plots"><SidebarItem icon={<LandPlot size={20} />} text="Plots" /></Link>
                 <Link to="/dashboard/requests"><SidebarItem icon={<Inbox size={20} />} text="Requests" /></Link>
                 <Link to="/dashboard/billings"><SidebarItem icon={<Receipt size={20} />} text="Billings" /></Link>
@@ -92,27 +93,38 @@ export default function Listings() {
             <div className="">
                 <div ref={mapContainer} className="map-container" />
             </div>
-            <div className="bg-gray-200 w-full min-h-screen flex">
-                <p className="text-red-700 mt-5">{showListingsError ? "Error showing listings" : ""}</p>
-                <div className="grid grid-rows-4 grid-flow-col gap-2 justify-center">
+            <div className="bg-slate-800 w-full min-h-screen flex">
+                <div className="mt-2 right-0 absolute">
+                    <Link 
+                        to="/dashboard/create-listing" 
+                        className="py-2.5 px-4 text-white uppercase rounded-lg bg-lime-600 hover:opacity-95 disabled:opacity-80"
+                    >
+                      Add Listing
+                    </Link>
+                </div>
+                <p className="text-red-700 mt-10">{showListingsError ? "No listings to display" : ""}</p>
+                <div className="mt-10 grid grid-rows-4 grid-flow-col gap-2 justify-center">
                 { 
                     userListings && 
                         userListings.length > 0 &&
                             userListings.map((listing) => (
                                 <div 
                                     key={listing._id}
-                                    className="w-60 p-2 bg-white rounded-xl" >
+                                    className="m-2 w-60 bg-white rounded-md" >
                                     <Link to={`/listing/${listing._id}`}>
                                         <img 
                                             src={listing.imageUrls[0]} 
                                             alt="listing cover"
-                                            className="items-center h-40 object-cover rounded-xl" 
+                                            className="p-1 items-center w-60 h-40 rounded-xl object-cover" 
                                             onError={addDefaultSrc}
                                             />
                                         <div className="">
-                                            <h2 className="text-gray-600">{listing.name}</h2>
-                                            <p className="text-slate-700">{listing.description}</p>
-                                        </div> 
+                                            <h2 className="p-2 text-center text-gray-600">{listing.name}</h2>
+                                            <p className="p-2 text-sm text-slate-700">{listing.description}</p>
+                                        </div>
+                                        <div>
+                                            <p>{}</p>
+                                        </div>
                                     </Link>
                                 </div>
                             ))

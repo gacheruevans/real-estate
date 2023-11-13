@@ -89,7 +89,7 @@ export default function CreateListing() {
                 setError(error.message);
                 return;
             }
-            navigate(`/listing/${data._id}`);
+            navigate(`/dashboard/listings`);
         } catch (error) {
             setError(error.message);
             setLoading(false);
@@ -216,7 +216,7 @@ export default function CreateListing() {
                                 className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200"  
                                 onChange={handleChange}
                                 placeholder="Longitude"
-                                value={formData.address}
+                                value={formData.longitude}
                                 required />
                             <input 
                                 type="text" 
@@ -224,7 +224,7 @@ export default function CreateListing() {
                                 className="block w-full h-10 px-3 mt-2 bg-white rounded-md shadow-sm appearance-none text-slate-900 sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200"  
                                 onChange={handleChange}
                                 placeholder="Latitude"
-                                value={formData.address}
+                                value={formData.latitude}
                                 required />
 
                             <div className="flex flex-wrap gap-6">
