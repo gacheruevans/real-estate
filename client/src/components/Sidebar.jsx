@@ -1,10 +1,15 @@
 // import { FaWarehouse,FaEnvelope, FaRegIdCard, FaSignOutAlt, FaUsersCog } from 'react-icons/fa';
 import { useState, createContext, useContext } from 'react';
 import {ChevronLeft, ChevronRight, MoreVertical} from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const SidebarContext = createContext();
 export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
+  const {currentUser} = useSelector((state) => state.user);
+  const addDefaultSrc = (ev) => {
+    ev.target.src = "../../public/images/user.png";
+  };
   return (
     <aside className="h-screen duration-300 ease-linear -translate-x-full lg:static lg:translate-x-0">
       <nav className={`h-full flex flex-col border-r shadow-sm ${!expanded && "bg-slate-800"}`}>
@@ -31,7 +36,8 @@ export default function Sidebar({ children }) {
 
         <div className="border-t flex p-3">
           <img
-            src="../../public/images/user.png"
+            onError={addDefaultSrc}
+            src={currentUser.avatar}
             alt="avatar"
             className="w-10 h-10 rounded-md"
           />
@@ -42,8 +48,8 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">Evans Gacheru</h4>
-              <span className="text-xs text-gray-600">evans.gacheru.munene@gmail.com</span>
+              <h4 className="font-semibold">{currentUser.firstname + " " + currentUser.lastname}</h4>
+              <span className="text-xs text-gray-600">{currentUser.email}</span>
             </div>
             <MoreVertical size={20} />
           </div>

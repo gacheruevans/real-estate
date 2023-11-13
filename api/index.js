@@ -14,6 +14,7 @@ mongoose
     console.log("MongoDB Database Connected!");
 }).catch((err)=> {
     console.log(err);
+    console.log(err + " Connection Failure. Check if the Database is running on Docker");
 });
 
 const app = express();
