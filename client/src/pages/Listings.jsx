@@ -25,7 +25,6 @@ export default function Listings() {
     const [zoom, setZoom] = useState(11);
 
     const {currentUser} = useSelector((state) => state.user);
-    console.log(currentUser);
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
 
@@ -90,8 +89,8 @@ export default function Listings() {
             <div className="">
                 <div ref={mapContainer} className="map-container" />
             </div>
-            <div className="bg-slate-800 w-full min-h-screen flex">
-                <div className="mt-2 right-0 absolute">
+            <div className="flex w-full min-h-screen bg-slate-800">
+                <div className="absolute right-0 mt-2">
                     <Link 
                         to="/dashboard/create-listing" 
                         className="py-2.5 px-4 text-white uppercase rounded-lg bg-lime-600 hover:opacity-95 disabled:opacity-80"
@@ -99,20 +98,20 @@ export default function Listings() {
                       Add Listing
                     </Link>
                 </div>
-                <p className="text-red-700 mt-10">{showListingsError ? "No listings to display" : ""}</p>
-                <div className="mt-8 grid grid-rows-4 grid-flow-col gap-1 justify-center">
+                <p className="mt-10 text-red-700">{showListingsError ? "No listings to display" : ""}</p>
+                <div className="grid justify-center grid-flow-col grid-rows-4 gap-1 mt-8">
                 { 
                     userListings && 
                         userListings.length > 0 &&
                             userListings.map((listing) => (
                                 <div 
                                     key={listing._id}
-                                    className="m-2 w-60 bg-white rounded-md" >
+                                    className="m-2 bg-white rounded-md w-60" >
                                     <Link to={`/listing/${listing._id}`}>
                                         <img 
                                             src={listing.imageUrls[0]} 
                                             alt="listing cover"
-                                            className="p-1 items-center w-60 h-40 rounded-xl object-cover" 
+                                            className="items-center object-cover h-40 p-1 w-60 rounded-xl" 
                                             onError={addDefaultSrc}
                                             />
                                         <div className="">
