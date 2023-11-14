@@ -23,23 +23,27 @@ export default function ListingDetails() {
     const [lat, setLat] = useState(-1.264090);
     const [zoom, setZoom] = useState(11);
     
-    const [showListingsError, setShowListingsError] = useState(false);
-    const [userListings, setUserListings] = useState([]);
+    const [listingDetailsError, setlistingDetailsError] = useState(false);
+    const [listingDetails, setListingDetails] = useState([]);
 
     useEffect(() => {
         const fetchListing = async () => {
             try{
+                setlistingDetailsError(false);
+                
                 const listingId = params.listingId;
                 const res = await fetch(`/api/listing/getListing/${listingId}`);
                 const data = await res.json();
+
                 if(data.success === false) {
-                    setShowListingsError(true);
+                    setlistingDetailsError(true);
                     return;
                 }
-                setShowListingsError(false);
-                setUserListings(data);
+                
+                setlistingDetailsError(false);
+                setListingDetails(data);
             } catch (error) {
-                setShowListingsError(true);
+                setlistingDetailsError(true);
             }
         };
 
