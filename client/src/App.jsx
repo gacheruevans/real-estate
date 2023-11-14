@@ -4,6 +4,7 @@ import SignIn from "./pages/signin";
 import SignUp from "./pages/SignUp";
 import About from "./pages/About";
 import CreateListing from "./pages/CreateListing";
+import UpdateListing from "./pages/UpdateListing";
 import Listings from "./pages/Listings";
 
 import ListingDetails from './components/ListingDetails';
@@ -21,6 +22,7 @@ export default function App() {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/listingDetails/:listingId' element={<ListingDetails />} />
+        <Route path='/update-listing/:listingId' element={<UpdateListing />} />
         <Route element={<PrivateRoute />} >
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/dashboard/profile' element={<Profile />} />

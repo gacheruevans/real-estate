@@ -107,7 +107,7 @@ export default function Listings() {
                                 <div 
                                     key={listing._id}
                                     className="m-2 bg-white rounded-md w-60" >
-                                    <Link to={`/listing/${listing._id}`}>
+                                    <Link to={`/listingDetails/${listing._id}`}>
                                         <img 
                                             src={listing.imageUrls[0]} 
                                             alt="listing cover"

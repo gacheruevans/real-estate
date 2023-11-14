@@ -18,7 +18,6 @@ import {
     Settings,
     LayoutDashboard,
 } from "lucide-react";
-// import mapboxgl from "mapbox-gl";
 
 export default function ListingDetails() {
     SwiperCore.use([Navigation]);
@@ -26,11 +25,6 @@ export default function ListingDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const params = useParams();
-    // const mapContainer = useRef(null);
-    // const map = useRef(null);
-    // const [lng, setLng] = useState(36.611686);
-    // const [lat, setLat] = useState(-1.264090);
-    // const [zoom, setZoom] = useState(11);
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -56,23 +50,8 @@ export default function ListingDetails() {
 
         fetchListing();
 
-        // if (map.current) return; // initialize map only once
-        //     map.current = new mapboxgl.Map({
-        //     container: mapContainer.current,
-        //     style: 'mapbox://styles/mapbox/streets-v12',
-        //     center: [lng, lat],
-        //     zoom: zoom
-        // });
-        // map.current.on('move', () => {
-        //     setLng(map.current.getCenter().lng.toFixed(4));
-        //     setLat(map.current.getCenter().lat.toFixed(4));
-        //     setZoom(map.current.getZoom().toFixed(2));
-        // });
       }, [params.listingId]);
 
-    //   const addDefaultSrc = (ev) => {
-    //     ev.target.src = "../../public/images/home.png";
-    //   };
   return (
     <>
         <div className="flex w-full columns-2">
@@ -104,18 +83,24 @@ export default function ListingDetails() {
                 }
                 {
                     listing && !loading && !error && (
+                        <>
+                            <div>
+                                <Link 
+                                className="absolute right-0 z-10 p-3 mt-0 text-white uppercase bg-green-700 border rounded boorder-green-700 hover:shadow-lg disabled:opacity-80" 
+                                to={`/update-listing/${listing._id}`}>Edit Lisitng</Link>
+                            </div>
                        
                             <Swiper navigation>
                                 {listing.imageUrls.map( (url) => (
                                     <SwiperSlide key={url}>
                                             <img
-                                                className="h-[550px] w-full object-cover" 
+                                                className="h-[450px] w-[1098px] object-cover bg-no-repeat" 
                                                 src={url}
                                             />
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
-                       
+                        </>
                     )
                 }
             </div>

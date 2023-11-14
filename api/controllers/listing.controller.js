@@ -42,7 +42,7 @@ export const updateListing = async(req, res, next) => {
   }
 
   if (req.user.id !== listing.userRef) {
-    return next(errorHandler(401, 'You can only update youor own listings!'));
+    return next(errorHandler(401, 'You can only update your own listings!'));
   }
   
   try {
