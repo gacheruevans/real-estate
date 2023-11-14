@@ -1,7 +1,7 @@
 import express from "express";
 import { 
     createListing, 
-    listing, 
+    getlisting, 
     listings, 
     updateListing, 
     deleteListing, 
@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/create",createListing);
 router.get("/listings", listings);
-router.get("/listing/:id", listing);
+router.get("/getListing/:id", getlisting);
 router.post("/update/:id", updateListing);
 router.delete("/delete/:id", deleteListing);
 
