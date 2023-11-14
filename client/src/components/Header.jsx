@@ -1,20 +1,13 @@
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useSelector} from 'react-redux';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Header() {
+    const ref = useRef();
     const [error, setError] = useState(null);
     const { currentUser } = useSelector(state => state.user);
     const [displayMenu, setDisplayMenu] = useState(false);
-
-    const profileMenu = () => {
-        if(displayMenu === true) {
-            setDisplayMenu(false);
-        } else {
-            setDisplayMenu(true);
-        } 
-    };
   
     const handleSignOut = async () => {
 
@@ -32,6 +25,20 @@ export default function Header() {
             setError(error.message);
         }
     };
+    useEffect(() => {
+      const checkClickOutside = (e) => {
+        if(displayMenu && ref.current && !ref.current.contains(e.target)) {
+            setDisplayMenu(false);
+        }
+      };
+
+      document.addEventListener("mousedown", checkClickOutside)
+    
+      return () => {
+        document.removeEventListener("mousedown", checkClickOutside);
+      }
+    }, [displayMenu])
+    
   return (
     <header className="shadow-md bg-slate-200">
         <div className="flex items-center justify-between max-w-6xl p-3 mx-auto">
@@ -57,11 +64,15 @@ export default function Header() {
                 <Link to="/sale">
                     <li className="hidden sm:inline text-slate-700 hover:underline">Sale</li>
                 </Link>
+
+                <Link to="/realtors">
+                    <li className="hidden sm:inline text-slate-700 hover:underline">Realtors</li>
+                </Link>
                 {currentUser ? (
                     <div className="relative inline-block text-left">
                         <button 
                             type="button" 
-                            onClick={profileMenu} 
+                            onClick={() => setDisplayMenu(true)} 
                             aria-expanded={displayMenu} 
                             aria-haspopup="false">
                             <img 
@@ -71,8 +82,9 @@ export default function Header() {
                             />
                         </button>
                         {
-                            displayMenu ? (
+                            displayMenu && 
                                 <div 
+                                    ref={ref}
                                     className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" 
                                     role="menu" 
                                     aria-orientation="vertical" 
@@ -104,7 +116,7 @@ export default function Header() {
                                             id="menu-item-3" >Sign Out</button>
                                     </div>
                                 </div>
-                            ) :''
+                            
                         }
                     </div>
                 ) :
@@ -114,7 +126,6 @@ export default function Header() {
                         </Link>
                     )
                 }
-               
             </ul>
         </div>
     </header>

@@ -10,8 +10,32 @@ export const createListing = async(req, res, next) => {
     }
 };
 
-export const listing = async(req, res, next) => {};
-export const listings = async(req, res, next) => {};
+export const listingDetails = async(req, res, next) => {
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(404, 'Listing not found'));
+  }
+  try {
+    const listing = await Listing.findById(req.params.id);
+    res.status(200).json(listing);
+  } catch (error) {
+    next(error)
+  }
+};
+
+export const listings = async(req, res, next) => {
+  const listings = await Listing.find();
+  if(!listings) {
+    return next(errorHandler(404, 'No Listings found'));
+  }
+  try {
+    const listings = await Listing.find();
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const updateListing = async(req, res, next) => {
   const listing = await Listing.findById(req.params.id);
 

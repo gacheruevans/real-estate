@@ -103,9 +103,8 @@ export default function ProfileSettings() {
                 dispatch(deleteUserFailure(data.message));
                 return;
             }
-            // localStorage.clear();
+
             dispatch(deleteUserSuccess(data));
-            // window.location.reload(true);
         } catch (error) {
             dispatch(deleteUserFailure(error.message));
         }

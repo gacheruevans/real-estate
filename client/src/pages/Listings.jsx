@@ -29,6 +29,7 @@ export default function Listings() {
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
 
+    
     useEffect(() => {
         if (map.current) return; // initialize map only once
             map.current = new mapboxgl.Map({
@@ -42,10 +43,7 @@ export default function Listings() {
             setLat(map.current.getCenter().lat.toFixed(4));
             setZoom(map.current.getZoom().toFixed(2));
         });
-    });
 
-    
-    useEffect(() => {
         const handleShowListings = async () => {
 
             try {
@@ -63,7 +61,7 @@ export default function Listings() {
             }
         };
         handleShowListings();
-      }, [currentUser._id]);
+      }, [lat, lng, currentUser._id, zoom]);
 
       const addDefaultSrc = (ev) => {
         ev.target.src = "../../public/images/home.png";
@@ -76,7 +74,6 @@ export default function Listings() {
                     <SidebarItem 
                         icon={<LayoutDashboard size={20}/>}
                         text="Dashboard"
-                        
                     />
                 </Link>
                 <Link to="/dashboard/analytics"><SidebarItem icon={<BarChart3 size={20} />} text="Analytics" /></Link>
@@ -103,7 +100,7 @@ export default function Listings() {
                     </Link>
                 </div>
                 <p className="text-red-700 mt-10">{showListingsError ? "No listings to display" : ""}</p>
-                <div className="mt-10 grid grid-rows-4 grid-flow-col gap-2 justify-center">
+                <div className="mt-8 grid grid-rows-4 grid-flow-col gap-1 justify-center">
                 { 
                     userListings && 
                         userListings.length > 0 &&
