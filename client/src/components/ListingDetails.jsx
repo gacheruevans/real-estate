@@ -14,7 +14,7 @@ import {
     FaParking,
     FaShare,
   } from 'react-icons/fa';
-import {MdPets} from "react-icons/md";
+import { MdPets } from "react-icons/md";
 import Contact from "./Contact";
 import mapboxgl from "mapbox-gl";
 

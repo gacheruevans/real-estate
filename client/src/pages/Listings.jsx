@@ -14,37 +14,52 @@ import {
     Settings,
     LayoutDashboard,
 } from "lucide-react";
-import mapboxgl from "mapbox-gl";
+import ReactMapGL, {Marker} from "react-map-gl";
+import * as process from "process";
+// import mapboxgl from "mapbox-gl";
 
-mapboxgl.accessToken = "pk.eyJ1IjoiZWdhY2hlcnUiLCJhIjoiY2xvczlzZnJ6MHozcjJqbXpvNXRreW56aCJ9.fL6OWHyFGY01vWKdowHKrQ";
+// mapboxgl.accessToken = "pk.eyJ1IjoiZWdhY2hlcnUiLCJhIjoiY2xvczlzZnJ6MHozcjJqbXpvNXRreW56aCJ9.fL6OWHyFGY01vWKdowHKrQ";
 export default function Listings() {
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(36.611686);
-    const [lat, setLat] = useState(-1.264090);
-    const [zoom, setZoom] = useState(11);
+    // const mapContainer = useRef(null);
+    // const map = useRef(null);
+    // const [lngLat, setLngLat] = useState([36.611686, -1.264090]);
+    const [viewport, setViewport] = useState({
+        latitude: -1.264090,
+        longitude: 36.611686,
+        width: "100vh",
+        height: "100vh",
+        zoom: 16
+    });
+   
 
     const {currentUser} = useSelector((state) => state.user);
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
 
-    
     useEffect(() => {
-        if (map.current) return; // initialize map only once
-            map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v12',
-            center: [lng, lat],
-            zoom: zoom
-        });
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
+        // if (map.current) return; // initialize map only once
+        //     map.current = new mapboxgl.Map({
+        //         container: mapContainer.current,
+        //         style: 'mapbox://styles/mapbox/streets-v12',
+        //         center: [lng, lat],
+        //         zoom: zoom
+        //     });
+
+        // Set marker options.
+        // const marker =  new mapboxgl.Marker({
+        //     color: "#FFFFFF",
+        //     draggable: false
+        // }).setLngLat(lngLat);
+
+        // marker.addTo(map.current);
+
+        // map.current.on('move', () => {
+        //     setLng(map.current.getCenter().lng.toFixed(4));
+        //     setLat(map.current.getCenter().lat.toFixed(4));
+        //     setZoom(map.current.getZoom().toFixed(2));
+        // });
 
         const handleShowListings = async () => {
-
             try {
                 setShowListingsError(false);
                 const res = await fetch(`/api/user/listing/${currentUser._id}`);
@@ -60,7 +75,7 @@ export default function Listings() {
             }
         };
         handleShowListings();
-      }, [lat, lng, currentUser._id, zoom]);
+      }, [currentUser._id]);
 
       const addDefaultSrc = (ev) => {
         ev.target.src = "../../public/images/home.png";
@@ -86,9 +101,16 @@ export default function Listings() {
                 <Link to="/dashboard/settings"><SidebarItem icon={<Settings size={20} />} text="Settings"  /></Link>
                 <Link to="/dashboard/help"><SidebarItem icon={<LifeBuoy size={20} />} text="Help"  /></Link>
             </Sidebar>
-            <div className="">
-                <div ref={mapContainer} className="map-container" />
-            </div>
+            <ReactMapGL
+                {...viewport}
+                mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                mapStyle="mapbox://styles/mapbox/streets-v12"
+                onViewportChange={viewport => {
+                    setViewport(viewport)
+                }}
+            >
+                markers here
+            </ReactMapGL>
             <div className="flex w-full min-h-screen bg-slate-800">
                 <div className="absolute right-0 mt-2">
                     <Link 
