@@ -8,14 +8,14 @@ export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
   const {currentUser} = useSelector((state) => state.user);
   const addDefaultSrc = (ev) => {
-    ev.target.src = "../../public/images/user.png";
+    ev.target.src = "../../images/user.png";
   };
   return (
     <aside className="h-screen duration-300 ease-linear -translate-x-full lg:static lg:translate-x-0">
       <nav className={`h-full flex flex-col border-r shadow-sm ${!expanded && "bg-slate-800"}`}>
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className="flex items-center justify-between p-4 pb-2">
           <img
-            src="../../public/images/logoipsum-297.svg"
+            src="../../images/logoipsum-297.svg"
             className={`
               overflow-hidden transition-all ${
                 expanded ? "w-32" : "w-0"
@@ -34,7 +34,7 @@ export default function Sidebar({ children }) {
           <ul className="flex-1 px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
+        <div className="flex p-3 border-t">
           <img
             onError={addDefaultSrc}
             src={currentUser.avatar}

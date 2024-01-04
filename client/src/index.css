@@ -4,12 +4,28 @@
 
 .map-container {
     height: 100vh;
-    width: 55rem;
+    width: 40vw;
 }
 
 .map-container-listing-details {
     height: 25vh;
     width: 100vw;
+}
+
+.marker-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+  
+.marker-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 .sidebar {
