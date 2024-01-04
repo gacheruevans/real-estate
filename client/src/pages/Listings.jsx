@@ -14,17 +14,20 @@ import {
     Settings,
     LayoutDashboard,
 } from "lucide-react";
-import * as process from "process";
-import mapboxgl from "mapbox-gl";
-import Est from "../data/properties.json";
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+
+import mapboxgl from "mapbox-gl";
+import geoJson from "../data/properties.json";
+
+mapboxgl.accessToken = "pk.eyJ1IjoiZWdhY2hlcnUiLCJhIjoiY2xxemYybzZ0MDExZDJpbGpoMDgyZHZvMSJ9.5q11xHIeWzA94kV2p-iiBg";
+
 export default function Listings() {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(36.611686);
     const [lat, setLat] = useState(-1.264090);
     const [zoom, setZoom] = useState(15);
+    
     const {currentUser} = useSelector((state) => state.user);
     const [showListingsError, setShowListingsError] = useState(false);
     const [userListings, setUserListings] = useState([]);
@@ -36,8 +39,38 @@ export default function Listings() {
                 style: 'mapbox://styles/mapbox/streets-v12',
                 center: [lng, lat],
                 zoom: zoom
-            });
-            
+            });  
+        
+        
+        // Create default markers
+        geoJson.features.map((feature) =>
+            new mapboxgl.Marker()
+                .setLngLat(feature.geometry.coordinates)
+                .setPopup(
+                    new mapboxgl.Popup({ offset: 25 }) // add popups
+                    .setHTML(
+                    `<img src=${feature.properties.image} /><h2>${feature.properties.title}</h2><p>${feature.properties.description}</p>`
+                    )
+                )
+                .addTo(map.current)
+        );
+
+        // Add a new layer to visualize the polygon.
+        map.current.addLayer({
+            'id': 'maine',
+            'type': 'fill',
+            'source': 'maine', // reference the data source
+            'layout': {},
+            'paint': {
+            'fill-color': '#0080ff', // blue color fill
+            'fill-opacity': 0.5
+            }
+        });  
+
+        // navigation controls +/- zoom buttons
+        const nav = new mapboxgl.NavigationControl();
+        map.current.addControl(nav, 'top-right');
+        
         map.current.on('move', () => {
             setLng(map.current.getCenter().lng.toFixed(4));
             setLat(map.current.getCenter().lat.toFixed(4));
