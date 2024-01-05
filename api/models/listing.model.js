@@ -59,7 +59,7 @@ const listingSchema = new mongoose.Schema({
     },
     imageUrls: {
         type: Array,
-        default: "../../images/home.png",
+        default: "../../public/images/home.png",
         required: true,
     },
     userRef: {
