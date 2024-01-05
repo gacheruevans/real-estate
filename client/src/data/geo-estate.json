@@ -12,22 +12,11 @@
         "description": "Private Residential Estate",
         "DESCRIPT_1": "Gated Community",
         "icon":"../../images/marker_map_icon.png",
-        "image":"../../images/rosegate_phase_2b.jpeg"
+        "image":"../../public/images/rosegate_phase_2b.jpeg"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [
-          [36.611691, -1.265085],
-          [36.611701, -1.265124],
-          [36.611579, -1.265176],
-          [36.611091, -1.264278],
-          [36.611981, -1.263896],
-          [36.612078, -1.264168],
-          [36.611711, -1.264399],
-          [36.611887, -1.265018],
-          [36.611765, -1.265091],
-          [36.611736, -1.265060]
-        ]
+        "coordinates": [36.611715, -1.265085]
       }
     },
     {
@@ -40,18 +29,12 @@
         "FACILITY": "Neighbourhood : Nachu ward, private residential estate to service 16 houses",
         "description": "Private Residential Estate",
         "DESCRIPT_1": "Gated Community",
-        "icon":"../../images/marker_map_icon.png",
+        "icon":"../../public/images/marker_map_icon.png",
         "image":"../../images/rosegate_phase_2A.jpeg"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [
-          [36.611384, -1.265452],
-          [36.613004, -1.266203],
-          [36.613352, -1.265849], 
-          [36.611909, -1.265168] 
-          
-        ]
+        "coordinates": [36.611613, -1.265337]
       }
     },
     {
@@ -67,8 +50,8 @@
         "icon":"../../public/images/marker_map_icon.png"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[0,0],[0,0],[0,0],[0,0]]
+        "type": "Point",
+        "coordinates": [36.614252, -1.268110]
       }
     },
     {
@@ -84,8 +67,8 @@
         "icon":"../../public/images/marker_map_icon.png"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[0,0],[0,0],[0,0],[0,0]]
+        "type": "Point",
+        "coordinates": [36.611257, -1.265429]
       }
     }
   ]

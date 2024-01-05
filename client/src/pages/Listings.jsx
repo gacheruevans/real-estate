@@ -17,16 +17,18 @@ import {
 
 
 import mapboxgl from "mapbox-gl";
-import geoJson from "../data/geo.json";
+import geoJson from "../data/geo-estate-data.json";
+import geoEstateJson from "../data/geo-estate.json";
+// import geoHousesJson from "../data/geo-houses.json";
 
 mapboxgl.accessToken = "pk.eyJ1IjoiZWdhY2hlcnUiLCJhIjoiY2xxemYybzZ0MDExZDJpbGpoMDgyZHZvMSJ9.5q11xHIeWzA94kV2p-iiBg";
 
 export default function Listings() {
     const mapContainer = useRef(null);
     const map = useRef(null);
-    const [lng, setLng] = useState(36.611686);
-    const [lat, setLat] = useState(-1.264090);
-    const [zoom, setZoom] = useState(15);
+    const [lng, setLng] = useState(36.611391);
+    const [lat, setLat] = useState(-1.265691);
+    const [zoom, setZoom] = useState(16);
     
     const {currentUser} = useSelector((state) => state.user);
     const [showListingsError, setShowListingsError] = useState(false);
@@ -42,31 +44,51 @@ export default function Listings() {
             });  
         
         
-        // Create default markers
-        geoJson.features.map((feature) =>
-            new mapboxgl.Marker()
-                .setLngLat(feature.geometry.coordinates)
-                .setPopup(
-                    new mapboxgl.Popup({ offset: 25 }) // add popups
-                    .setHTML(
-                    `<img src=${feature.properties.image} /><h2>${feature.properties.title}</h2><p>${feature.properties.description}</p>`
+        map.current.on('load', () => {
+            // grab the Geo Data 
+            map.current.addSource('estate', {
+                'type': 'geojson',
+                'data': geoJson
+            });
+
+            // Add a new layer to visualize the polygon.
+            map.current.addLayer({
+                'id': 'estate-boundary',
+                'type': 'fill',
+                'source': 'estate',
+                'paint': {
+                    'fill-color': '#888888', // blue color fill
+                    'fill-opacity': 0.4
+                },
+                'filter': ['==', '$type', 'Polygon']
+            });
+
+            // Add a black outline around the polygon.
+            map.current.addLayer({
+                'id': 'outline',
+                'type': 'line',
+                'source': 'estate',
+                'layout': {},
+                'paint': {
+                'line-color': '#fff',
+                'line-width': 1
+                }
+            });
+
+            // Create default markers
+            geoEstateJson.features.map((feature) =>
+                new mapboxgl.Marker()
+                    .setLngLat(feature.geometry.coordinates)
+                    .setPopup(
+                        new mapboxgl.Popup({ offset: 25 }) // add popups
+                        .setHTML(
+                        `<img src=${feature.properties.image} /><h2>${feature.properties.title}</h2><p>${feature.properties.description}</p>`
+                        )
                     )
-                )
-                .addTo(map.current)
-        );
-
-        // Add a new layer to visualize the polygon.
-        map.current.addLayer({
-            'id': 'maine',
-            'type': 'fill',
-            'source': 'maine', // reference the data source
-            'layout': {},
-            'paint': {
-            'fill-color': '#0080ff', // blue color fill
-            'fill-opacity': 0.5
-            }
-        });  
-
+                    .addTo(map.current)
+            );
+        });
+        
         // navigation controls +/- zoom buttons
         const nav = new mapboxgl.NavigationControl();
         map.current.addControl(nav, 'top-right');
