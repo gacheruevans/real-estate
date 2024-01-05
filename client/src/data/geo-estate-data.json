@@ -1,0 +1,116 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 1002,
+        "title": "House 2B",
+        "address": "RoseGate Esate Phase 2B",
+        "FACILITY_T": "Private Residence",
+        "FACILITY": "Neighbourhood : Nachu ward, private residential estate to service 16 houses",
+        "description": "Private Residential 4 Bedroom House.",
+        "DESCRIPT_1": "Private Residence",
+        "icon":"../../images/marker_map_icon.png",
+        "image":"../../images/rosegate_phase_2b.jpeg"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.611692, -1.265087],
+            [36.611703, -1.265124],
+            [36.611579, -1.265178],
+            [36.611091, -1.264280],
+            [36.611983, -1.263898],
+            [36.612079, -1.264167],
+            [36.611712, -1.264397],
+            [36.611888, -1.265016],
+            [36.611768, -1.265092],
+            [36.611736, -1.265059],
+            [36.611692, -1.265087]
+         ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 1219,
+        "title": "RoseGate Phase 2A",
+        "address": "Thogoto Thigio Road",
+        "FACILITY_T": "Private Residential Estate",
+        "FACILITY": "Neighbourhood : Nachu ward, private residential estate to service 16 houses",
+        "description": "Private Residential Estate",
+        "DESCRIPT_1": "Gated Community",
+        "icon":"../../images/marker_map_icon.png",
+        "image":"../../images/rosegate_phase_2A.jpeg"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.611615, -1.265357],
+            [36.611576, -1.265340],
+            [36.611378, -1.265446],
+            [36.613006, -1.266206],
+            [36.613353, -1.265846],
+            [36.611905, -1.265167],
+            [36.611639, -1.265304],
+            [36.611615, -1.265357]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 2278,
+        "title": "RoseGate Phase 3",
+        "address": "Thogoto Thigio Road",
+        "FACILITY_T": "flat",
+        "FACILITY": "Neighbourhood : smaller size facility to service population of 10,000 or less",
+        "description": "Flat surface, 5 components",
+        "DESCRIPT_1": "Surface plane, 5 modules",
+        "icon":"../../public/images/marker_map_icon.png"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.614202, -1.267784],
+            [36.611931, -1.268843],
+            [36.612135, -1.269215],
+            [36.614290, -1.268406],
+            [36.614202, -1.267784]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 2113,
+        "title": "Karai Gardens Estate",
+        "address": "Thogoto Thigio Road",
+        "FACILITY_T": "bowl",
+        "FACILITY": "District: larger facility to service population of 100,000 plus",
+        "description": "Large concrete bowl, 10 plus components, many street and vertical components",
+        "DESCRIPT_1": "Grand bol de béton, 10 modules ou plus, modules de rue et modules verticaux",
+        "icon":"../../public/images/marker_map_icon.png"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.611301, -1.265350],
+            [36.610744, -1.264466],
+            [36.610413, -1.264600],
+            [36.610992, -1.265588],
+            [36.611301, -1.265350]
+          ]
+        ]
+      }
+    }
+  ]
+}

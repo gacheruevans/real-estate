@@ -6,6 +6,14 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    firstname: {
+        type: String,
+        default: "",
+    },
+    lastname: {
+        type: String,
+        default: "",
+    },
     email: {
         type: String,
         required: true,
@@ -14,7 +22,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    avatar: {
+        type:String,
+        default: "../../public/images/home.png"
+    },
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
