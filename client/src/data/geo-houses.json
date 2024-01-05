@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 1002,
+        "title": "House 2B",
+        "address": "RoseGate Esate Phase 2B",
+        "FACILITY_T": "Private Residence",
+        "FACILITY": "Neighbourhood : Nachu ward, private residential estate to service 16 houses",
+        "description": "Private Residential 4 Bedroom House.",
+        "DESCRIPT_1": "Private Residence",
+        "icon":"../../images/marker_map_icon.png",
+        "image": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.611581, -1.264075],
+            [36.611647, -1.264209],
+            [36.611826, -1.264114],
+            [36.611772, -1.263989],
+            [36.611581, -1.264075]
+         ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 1219,
+        "title": "RoseGate Phase 2A",
+        "address": "Thogoto Thigio Road",
+        "FACILITY_T": "Private Residential Estate",
+        "FACILITY": "Neighbourhood : Nachu ward, private residential estate to service 16 houses",
+        "description": "Private Residential Estate",
+        "DESCRIPT_1": "Gated Community",
+        "icon":"../../images/marker_map_icon.png",
+        "image":"../../images/rosegate_phase_2A.jpeg"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [36.611615, -1.265357],
+            [36.611576, -1.265340],
+            [36.611378, -1.265446],
+            [36.613006, -1.266206],
+            [36.613353, -1.265846],
+            [36.611905, -1.265167],
+            [36.611639, -1.265304],
+            [36.611615, -1.265357]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "estate_id": 2113,
+        "title": "Karai Gardens Estate",
+        "address": "Thogoto Thigio Road",
+        "FACILITY_T": "bowl",
+        "FACILITY": "District: larger facility to service population of 100,000 plus",
+        "description": "Large concrete bowl, 10 plus components, many street and vertical components",
+        "DESCRIPT_1": "Grand bol de béton, 10 modules ou plus, modules de rue et modules verticaux",
+        "icon":"../../public/images/marker_map_icon.png"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.611398, -1.265306]
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,9 +16,7 @@ import {
   } from 'react-icons/fa';
 import {MdPets} from "react-icons/md";
 import Contact from "./Contact";
-import mapboxgl from "mapbox-gl";
 
-mapboxgl.accessToken = "pk.eyJ1IjoiZWdhY2hlcnUiLCJhIjoiY2xvczlzZnJ6MHozcjJqbXpvNXRreW56aCJ9.fL6OWHyFGY01vWKdowHKrQ";
 export default function ListingDetails() {
     SwiperCore.use([Navigation]);
     const [listing, setListing] = useState(null);
@@ -29,28 +27,7 @@ export default function ListingDetails() {
     const params = useParams();
     const { currentUser } = useSelector((state) => state.user);
 
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(36.611686);
-    const [lat, setLat] = useState(-1.264090);
-    const [zoom, setZoom] = useState(11);
-    
-
     useEffect(() => {
-        if (map.current) return; // initialize map only once
-            map.current = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: 'mapbox://styles/mapbox/streets-v12',
-                center: [lng, lat],
-                zoom: zoom
-        });
-        
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-
         const fetchListing = async () => {
             try{
                 setLoading(true);
@@ -74,7 +51,7 @@ export default function ListingDetails() {
 
         fetchListing();
 
-      }, [lat, lng, params.listingId, zoom]);
+      }, [params.listingId]);
 
   return (
     <main>
@@ -116,9 +93,7 @@ export default function ListingDetails() {
                         Link copied!
                         </p>
                     )}
-                     <div>
-                        <div ref={mapContainer} className="map-container-listing-details" />
-                    </div>
+                     
                     <div className='flex flex-col max-w-4xl gap-4 p-3 mx-auto my-7'>
                         <p className='text-2xl font-semibold'>
                         {listing.name} - ${' '}

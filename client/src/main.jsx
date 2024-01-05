@@ -2,7 +2,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { Provider } from 'react-redux';
 
-import './index.css'
+import './index.css';
+import './mapbox-gl.css';
 import { persistor, store } from './redux/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
 
